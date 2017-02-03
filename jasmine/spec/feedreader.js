@@ -59,7 +59,7 @@ $(function() {
          * hidden by default.
          */
          it('menu is hidden by default', function() {
-            expect($('body').hasClass('menu-hidden')).toBe(true);
+            expect($('body').hasClass('menu-hidden')).toBeTruthy();
          });
 
           /* Test that ensures the menu appear and is
@@ -68,9 +68,9 @@ $(function() {
          it('menu changes visibility', function() {
             /* Trigger event on menu */
             $('.menu-icon-link').trigger('click');
-            expect($('body').hasClass('menu-hidden')).toBe(false);
+            expect($('body').hasClass('menu-hidden')).toBeFalsy();
             $('.menu-icon-link').trigger('click');
-            expect($('body').hasClass('menu-hidden')).toBe(true);
+            expect($('body').hasClass('menu-hidden')).toBeTruthy();
 
          });
     });
@@ -80,36 +80,32 @@ $(function() {
 
         /* Call loadFeed for initial entries */
         beforeEach(function(done) {
-            loadFeed(0, function () {
-                done();
-            });
+            loadFeed(0, done);
         });
 
         /* This test ensures that when the loadFeed
         * function is called and completes its work, there is at least
         * a single .entry element within the .feed container.
         */
-        it('has at least one entry', function(done) {
+        it('has at least one entry', function() {
             expect($('.feed .entry').length).toBeGreaterThan(0);
-            done();
         });
     });
 
     /* A new test suite named "New Feed Selection" */
     describe("New Feed Selection", function(){
-        var current;
-        var after;
+        var a, b;
 
        /* beforeEach wait for async calls to finish */
         beforeEach(function(done) {
             /* Load the first feed */
             loadFeed(0 ,function() {
               /* Save content of feed to variable */
-              current = $('.feed').html();
+              a = $('.feed').html();
               /* Load second feed */
               loadFeed(1, function() {
                 /* Save contentof feed to variable */
-                after = $('.feed').html();
+                b = $('.feed').html();
                 done();
               });
             });
@@ -117,7 +113,7 @@ $(function() {
 
         /* Test to ensure that content changes */
         it('changes content' , function(done) {
-            expect(current != after).toBe(true);
+            expect(a).not.toEqual(b);
             done();
         });
     });
